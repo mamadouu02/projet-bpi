@@ -59,7 +59,7 @@ def main():
         pi = round(values[state], digits)
         generate_ppm_file(size, points[:n//10 * (state + 1)], state, pi)
 
-    subprocess.call("convert -loop 0 img*.ppm img.gif")
+    subprocess.call("convert -delay 100 -loop 0 img*.ppm img.gif")
 
 if __name__ == "__main__":
     main()
