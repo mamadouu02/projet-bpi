@@ -3,9 +3,11 @@
 """Génération d'une image animée représentant une simulation."""
 
 import sys
+import subprocess
 import approximate_pi
+from os import system
 
-def generate_ppm_file(size, points):
+def generate_ppm_file(size, points, state, pi):
     """Génère une image PPM."""
 
     colors = ["w" for _ in range(size ** 2)]
@@ -19,7 +21,9 @@ def generate_ppm_file(size, points):
         else:
             colors[index] = 'm'
 
-    with open('img.ppm', 'w') as file:
+    pi = str(pi).replace('.', '-')
+    filename = f'img{state}_{pi}.ppm'
+    with open(filename, 'w') as file:
         file.write("P3\n")
         file.write(f"{size} {size}\n")
         file.write("1\n")
@@ -30,9 +34,6 @@ def generate_ppm_file(size, points):
                 file.write("0 0 1\n")
             elif color == "m":
                 file.write("1 0 1\n")
-
-def convert():
-    ...
 
 def main():
     """Génère une image animée."""
@@ -51,8 +52,14 @@ def main():
     if digits < 1 or digits > 5:
         raise ValueError("n_digits must be an integer between 1 and 5")
     
-    pi, points = approximate_pi.simulation(n)
-    generate_ppm_file(size, points)
+    system("rm *.ppm")
+    values, points = approximate_pi.simulation(n)
+
+    for state in range(10):
+        pi = round(values[state], digits)
+        generate_ppm_file(size, points[:n//10 * (state + 1)], state, pi)
+
+    subprocess.call("convert -loop0 img*.ppm img.gif")
 
 if __name__ == "__main__":
     main()
