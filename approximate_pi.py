@@ -27,11 +27,12 @@ def main():
     """Calcule une valeur approximative de pi."""
 
     if len(sys.argv) != 2:
-        sys.exit(f"use : {sys.argv[0]} nb_points")
+        sys.exit(f"usage: {sys.argv[0]} n_points")
     
     n = int(sys.argv[1])
-    res, _ = simulation(n)
-    print(res)
+    pi, _ = simulation(n)
+    print(pi)
 
 if __name__ == "__main__":
     main()
+    
