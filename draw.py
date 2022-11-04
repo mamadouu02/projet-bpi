@@ -5,7 +5,6 @@
 import sys
 import subprocess
 import approximate_pi
-from os import system
 
 def generate_ppm_file(size, points, state, pi):
     """Génère une image PPM."""
@@ -52,14 +51,13 @@ def main():
     if digits < 1 or digits > 5:
         raise ValueError("n_digits must be an integer between 1 and 5")
     
-    system("rm *.ppm")
     values, points = approximate_pi.simulation(n)
 
     for state in range(10):
         pi = round(values[state], digits)
         generate_ppm_file(size, points[:n//10 * (state + 1)], state, pi)
 
-    subprocess.call("convert -delay 100 -loop 0 img*.ppm img.gif")
+    subprocess.run("convert -delay 100 -loop 0 img*.ppm img.gif", shell=True)
 
 if __name__ == "__main__":
     main()
