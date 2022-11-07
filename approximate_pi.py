@@ -4,9 +4,13 @@
 
 import sys
 from random import uniform
-from collections import namedtuple
 
-Point = namedtuple("Point", "x y in_circle")
+class Point:
+    
+    def __init__(self, x, y, in_circle):
+        self.x = x
+        self.y = y
+        self.in_circle = in_circle
 
 def simulation(n):
     """Génère aléatoirement n points puis renvoie la valeur approximative de pi et la liste des points."""
