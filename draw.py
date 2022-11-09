@@ -6,7 +6,7 @@ import sys
 import subprocess
 import approximate_pi
 
-def generate_ppm_file(size, points, colors, state, res, digits):
+def generate_ppm_file(size, points, colors, filename):
     """Génère une image PPM."""
 
     for point in points:
@@ -14,22 +14,16 @@ def generate_ppm_file(size, points, colors, state, res, digits):
         y = int((point.y + 1) * (size - 1) // 2)
         index = size * (size - 1 - y) + x
         if point.in_circle:
-            colors[index] = 'b'
+            colors[index] = "0 0 1\n"
         else:
-            colors[index] = 'm'
+            colors[index] = "1 0 1\n"
 
-    filename = f'img{state}_{res:.{digits}f}.ppm'.replace('.', '-', 1)
     with open(filename, 'w', encoding='utf-8') as file:
         file.write("P3\n")
         file.write(f"{size} {size}\n")
         file.write("1\n")
         for color in colors:
-            if color == "w":
-                file.write("1 1 1\n")
-            elif color == "b":
-                file.write("0 0 1\n")
-            elif color == "m":
-                file.write("1 0 1\n")
+            file.write(color)
 
 def main():
     """Génère une image animée."""
@@ -49,11 +43,13 @@ def main():
         raise ValueError("n_digits must be an integer between 1 and 5")
 
     values, points = approximate_pi.simulation(n_points)
-    colors = ["w" for _ in range(size ** 2)]
+    colors = ["1 1 1\n" for _ in range(size ** 2)]
 
     for state in range(10):
         res = values[state]
-        generate_ppm_file(size, points[:n_points//10 * (state + 1)], colors, state, res, digits)
+        step = n_points//10
+        filename = f'img{state}_{res:.{digits}f}.ppm'.replace('.', '-', 1)
+        generate_ppm_file(size, points[step * state:step * (state + 1)], colors, filename)
 
     subprocess.run("convert -delay 100 -loop 0 img*.ppm img.gif", shell=True, check=False)
 
