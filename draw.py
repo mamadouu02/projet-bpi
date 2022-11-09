@@ -6,10 +6,8 @@ import sys
 import subprocess
 import approximate_pi
 
-def generate_ppm_file(size, points, state, res):
+def generate_ppm_file(size, points, colors, state, res, digits):
     """Génère une image PPM."""
-
-    colors = ["w" for _ in range(size ** 2)]
 
     for point in points:
         x = int((point.x + 1) * (size - 1) // 2)
@@ -20,8 +18,7 @@ def generate_ppm_file(size, points, state, res):
         else:
             colors[index] = 'm'
 
-    res = str(res).replace('.', '-')
-    filename = f'img{state}_{res}.ppm'
+    filename = f'img{state}_{res:.{digits}f}.ppm'.replace('.', '-', 1)
     with open(filename, 'w', encoding='utf-8') as file:
         file.write("P3\n")
         file.write(f"{size} {size}\n")
@@ -50,13 +47,15 @@ def main():
         raise ValueError("n_points must be an integer greater than 100")
     if digits < 1 or digits > 5:
         raise ValueError("n_digits must be an integer between 1 and 5")
+
     values, points = approximate_pi.simulation(n_points)
+    colors = ["w" for _ in range(size ** 2)]
 
     for state in range(10):
-        res = round(values[state], digits)
-        generate_ppm_file(size, points[:n_points//10 * (state + 1)], state, res)
+        res = values[state]
+        generate_ppm_file(size, points[:n_points//10 * (state + 1)], colors, state, res, digits)
 
-    subprocess.run("convert -delay 100 -loop 0 img*.ppm img.gif", shell=True, check=True)
+    subprocess.run("convert -delay 100 -loop 0 img*.ppm img.gif", shell=True, check=False)
 
 if __name__ == "__main__":
     main()
