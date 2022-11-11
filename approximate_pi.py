@@ -35,8 +35,8 @@ def simulation(n_points):
 def main():
     """Calcule une valeur approximative de pi."""
     n_points = int(sys.argv[1])
-    res = simulation(n_points)
-    print(res)
+    value = simulation(n_points)
+    print(value)
 
 if __name__ == "__main__":
     main()
