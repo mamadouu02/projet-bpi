@@ -4,9 +4,7 @@
 
 import subprocess
 import sys
-
 import approximate_pi
-
 
 def pixel_index(x, y, imagesize):
     """Renvoie l'index d'un pixel."""
