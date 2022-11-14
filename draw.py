@@ -120,6 +120,7 @@ def main():
     display_width = (n_digits + 1) * (spacing + digit_width) + point_size
     display_height = image_size * 15//100 + 5
     y_min = (image_size - display_height) // 2
+    
     values, points = approximate_pi.simulation(n_points)
     colors = ["1 1 1\n" for _ in range(image_size ** 2)]
     memory = []
