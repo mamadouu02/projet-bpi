@@ -84,7 +84,7 @@ def digit_to_color(memory, colors, digitsindex):
     """Convertit les pixels utilisés pour l'affichage des chiffres en couleurs RGB."""
     for index in digitsindex:
         memory.append((index, colors[index]))
-        colors[index] = "0 0 0 "
+        colors[index] = "1 1 1 "
 
 def generate_ppm_file(imagesize, colors, filename):
     """Génère une image PPM."""
@@ -122,7 +122,7 @@ def main():
     y_min = (image_size - display_height) // 2
     
     values, points = approximate_pi.simulation(n_points)
-    colors = ["1 1 1 " for _ in range(image_size ** 2)]
+    colors = ["0 0 0 " for _ in range(image_size ** 2)]
     memory = []
 
     for state in range(10):
