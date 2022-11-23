@@ -16,8 +16,7 @@ def generator(n_points):
         x = uniform(-1, 1)
         y = uniform(-1, 1)
         in_circle = x**2 + y**2 < 1
-        if in_circle:
-            count += 1
+        count += int(in_circle)
 
         if __name__ == "__main__":
             continue
