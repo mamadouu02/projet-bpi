@@ -87,7 +87,7 @@ def digit_to_color(memory, colors, digitsindex):
 
 def generate_ppm_file(imagesize, colors, filename):
     """Génère une image PPM."""
-    with open(filename, 'w') as file:
+    with open(filename, 'w', encoding="utf-8") as file:
         file.write("P6\n")
         file.write(f"{imagesize} {imagesize}\n")
         file.write("1\n")
