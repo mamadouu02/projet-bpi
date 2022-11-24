@@ -16,9 +16,9 @@ def point_to_color(point, colors, imagesize):
     y = int((point.y + 1) * (imagesize - 1) // 2)
     index = pixel_index(x, y, imagesize)
     if point.in_circle:
-        colors[index] = "0 0 1 "
+        colors[index] = (0, 0, 1)
     else:
-        colors[index] = "1 0 1 "
+        colors[index] = (1, 0, 1)
 
 def digits_to_index(digitsindex, digit, width, height, linewidth, xmin, ymin, imagesize):
     """Ajoute la liste des index des pixels utilisés pour l'affichage des chiffres."""
@@ -83,16 +83,17 @@ def digit_to_color(memory, colors, digitsindex):
     """Convertit les pixels utilisés pour l'affichage des chiffres en couleurs RGB."""
     for index in digitsindex:
         memory.append((index, colors[index]))
-        colors[index] = "1 1 1 "
+        colors[index] = (1, 1, 1)
 
 def generate_ppm_file(imagesize, colors, filename):
     """Génère une image PPM."""
-    with open(filename, 'w', encoding='utf-8') as file:
-        file.write("P3\n")
+    with open(filename, 'w') as file:
+        file.write("P6\n")
         file.write(f"{imagesize} {imagesize}\n")
         file.write("1\n")
+    with open(filename, "ab") as file:
         for color in colors:
-            file.write(color)
+            file.write(bytes(color))
 
 def main():
     """Génère une image animée."""
@@ -120,7 +121,7 @@ def main():
     y_min = (image_size - display_height) // 2
 
     state = 0
-    colors = ["0 0 0 " for _ in range(image_size ** 2)]
+    colors = [(0, 0, 0) for _ in range(image_size ** 2)]
     memory = []
 
     for elem in generator(n_points):
