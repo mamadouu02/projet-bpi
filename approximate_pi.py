@@ -30,6 +30,13 @@ def generator(n_points):
 
 def main():
     """Calcule une valeur approximative de pi."""
+
+    if len(argv) != 2:
+        raise IndexError(f"usage: {argv[0]} n_points")
+
+    if not argv[1].isdigit():
+        raise ValueError("n_points must be an integer")
+
     n_points = int(argv[1])
     print(next(generator(n_points)))
 

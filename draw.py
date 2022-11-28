@@ -2,7 +2,7 @@
 
 """Génération d'une image animée représentant une simulation."""
 
-import sys
+from sys import argv
 from subprocess import run
 from approximate_pi import generator
 
@@ -98,12 +98,15 @@ def generate_ppm_file(imagesize, colors, filename):
 def main():
     """Génère une image animée."""
 
-    if len(sys.argv) != 4:
-        sys.exit(f"usage: {sys.argv[0]} image_size n_points n_digits")
+    if len(argv) != 4:
+        raise IndexError(f"usage: {argv[0]} image_size n_points n_digits")
 
-    image_size = int(sys.argv[1])
-    n_points = int(sys.argv[2])
-    n_digits = int(sys.argv[3])
+    if not(argv[1].isdigit() and argv[2].isdigit() and argv[3].isdigit()):
+        raise ValueError("arguments must be integers")
+
+    image_size = int(argv[1])
+    n_points = int(argv[2])
+    n_digits = int(argv[3])
 
     if image_size < 100:
         raise ValueError("image_size must be an integer greater than 100")
