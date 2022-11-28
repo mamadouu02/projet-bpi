@@ -31,8 +31,7 @@ def generator(n_points):
 def main():
     """Calcule une valeur approximative de pi."""
     n_points = int(argv[1])
-    for value in generator(n_points):
-        print(value)
+    print(next(generator(n_points)))
 
 if __name__ == "__main__":
     main()
